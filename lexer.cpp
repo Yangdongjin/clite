@@ -1,11 +1,11 @@
-// lexer.c
+// lexer.cpp
 // by David Weinman
 // 7/17/13 11:30p
 
 
 static bool isEof = false;
 static char ch = ' ';
-char[] line = "";
+static char[] line = "";
 int lineno = 0;
 int col = 1;
 char[] letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
