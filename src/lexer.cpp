@@ -2,6 +2,7 @@
 // by David Weinman
 // 7/17/13 11:30p
 
+/* *** lexer.hpp ***
 
 struct lexer {
 
@@ -30,9 +31,11 @@ struct lexer {
 
 };
 
+*/
+
 lexer::lexer(string filename) {
 
-
+	
 
 }
 
