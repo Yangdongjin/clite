@@ -2,6 +2,9 @@
 // by David Weinman
 // 7/25/13 11:00p
 
+#ifndef LEXER_H_
+#define LEXER_H_
+
 struct lexer {
 
         lexer(string filename);
@@ -28,6 +31,8 @@ struct lexer {
 
 };
 
+
+#endif /* LEXER_H_ */
 
 /*
 import java.io.*;
