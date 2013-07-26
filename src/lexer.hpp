@@ -1,10 +1,13 @@
-//
+// lexer.hpp
+// by David Weinman
+// 7/25/13 11:00p
 
 struct lexer {
 
         lexer(string filename);
         Token next();
-        void error(String);
+        void error(char *);
+        void main(char *);
 
         private:
                 static bool isEof = false;
@@ -21,9 +24,7 @@ struct lexer {
                 bool isDigit(char);
                 void check(char);
                 Token checkOpt(char, Token, Token);
-                String concat(String);
-
-
+                char * concat(String);
 
 };
 
