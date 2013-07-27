@@ -2,40 +2,41 @@
 // by David Weinman
 // 7/17/13 11:30p
 
+#include "lexer.hpp"
+
 /* *** lexer.hpp ***
 
 struct lexer {
 
-	lexer(string filename);
-	Token next();
-	void error(String);
+        lexer(char * filename);
+        Token next();
+        void error(char *);
+        void main(char *);
 
-	private:
-		static bool isEof = false;
-		static char ch = ' ';
-		static char[] line = "";
-		int lineno = 0;
-		int col = 1;
-		char[] letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		char[] digits = "0123456789";
-		char eolnCh = '\n';
-		char eofCh = '\004';
-		char nextChar();
-		bool isLetter(char);
-		bool isDigit(char);
-		void check(char);
-		Token checkOpt(char, Token, Token);
-		String concat(String);
-
-	
+        private:
+                static bool isEof = false;
+                static char ch = ' ';
+                static char[] line = "";
+                int lineno = 0;
+                int col = 1;
+                char[] letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                char[] digits = "0123456789";
+                char eolnCh = '\n';
+                char eofCh = '\004';
+                char nextChar();
+                bool isLetter(char);
+                bool isDigit(char);
+                void check(char);
+                Token checkOpt(char, Token, Token);
+                char * concat(String);
 
 };
 
 */
 
-lexer::lexer(string filename) {
+Lexer::Lexer(char * filename) {
 
-	
+		// input = text in filename.
 
 }
 
