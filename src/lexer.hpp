@@ -5,9 +5,9 @@
 #ifndef LEXER_H_
 #define LEXER_H_
 
-struct lexer {
+struct Lexer {
 
-        lexer(string filename);
+        Lexer(char * filename);
         Token next();
         void error(char *);
         void main(char *);
