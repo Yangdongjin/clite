@@ -4,6 +4,18 @@
 
 #include "token.hpp"
 
+Token::Token(TokenType t, char * val) {
+
+	this.type = t;
+	this.value = val;
+	if (t < TokenType::Eof) {
+		this.reserved[t];
+		this.token[t] = this;
+	}	
+
+}
+
+
 int main(int, char**);
 
 

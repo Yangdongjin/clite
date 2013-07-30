@@ -44,7 +44,9 @@ struct Token {
 	Token voidTok = Token(TokenType.Void, "void");
 
 	private:
-		int KEYWORDS = tokenType.Eof.ordinal();
+		int KEYWORDS = tokenType.Eof; // tokenType.Eof returns the
+					      // integer value of where the
+					      // Eof token is in the enum
 		char * reserved; //= new string of size KEYWORDS
 		Token[] token = Token[KEYWORDS];
 		TokenType type;
@@ -128,7 +130,7 @@ Token voidTok = Token(TokenType.Void, "void");
         if (t.compareTo(TokenType.Eof) < 0) {
             int ti = t.ordinal();
             reserved[ti] = v;
-    Token[ti] = this;
+    	    token[ti] = this;
         }
     }
 
