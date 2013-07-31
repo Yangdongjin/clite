@@ -43,6 +43,9 @@ struct Token {
 	Token returnTok = Token(TokenType.Return, "return");
 	Token voidTok = Token(TokenType.Void, "void");
 
+	TokenType type();
+	char* value();
+
 	private:
 		int KEYWORDS = tokenType.Eof; // tokenType.Eof returns the
 					      // integer value of where the

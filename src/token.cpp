@@ -15,6 +15,8 @@ Token::Token(TokenType t, char * val) {
 
 }
 
+Token::type() { return this.type; }
+Token::value() { return this.value; }
 
 int main(int, char**);
 
