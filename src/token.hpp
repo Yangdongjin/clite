@@ -58,6 +58,7 @@ struct Token {
 };
 
 enum TokenType {
+
 	 Void, Bool, Char, Else, False, Float,
      If, Int, Main, True, While, Return,
      Eof, LeftBrace, RightBrace, LeftBracket, RightBracket,

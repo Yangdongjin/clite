@@ -4,22 +4,26 @@
 
 #include "token.hpp"
 
+// ---- prototypes
+
+Token::Token(TokenType, char*);
+int main(int, char**);
+
+// ---- def'ns
+
 Token::Token(TokenType t, char * val) {
 
-	this.type = t;
-	this.value = val;
+	type = t;
+	value = val;
 	if (t < TokenType::Eof) {
-		this.reserved[t];
-		this.token[t] = this;
+		reserved[t];
+		token[t] = this;
 	}	
 
 }
 
-Token::type() { return this.type; }
-Token::value() { return this.value; }
-
-int main(int, char**);
-
+Token::type() { return type; }
+Token::value() { return value; }
 
 int main() {
 
@@ -28,7 +32,76 @@ int main() {
 }
 
 
-/*
+/* HEADER
+
+struct Token {
+
+	Token eofTok = Token(TokenType.Eof, "<<EOF>>");
+	Token boolTok = Token(TokenType.Bool, "bool");
+	Token charTok = Token(TokenType.Char, "char");
+	Token elseTok = Token(TokenType.Else, "else");
+	Token falseTok = Token(TokenType.False, "false");
+	Token floatTok = Token(TokenType.Float, "float");
+	Token ifTok = Token(TokenType.If, "if");
+	Token intTok = Token(TokenType.Int, "int");
+	Token mainTok = Token(TokenType.Main, "main");
+	Token trueTok = Token(TokenType.True, "true");
+	Token whileTok = Token(TokenType.While, "while");
+	Token leftBraceTok = Token(TokenType.LeftBrace, "{");
+	Token rightBraceTok = Token(TokenType.RightBrace, "}");
+	Token leftBracketTok = Token(TokenType.LeftBracket, "[");
+	Token rightBracketTok = Token(TokenType.RightBracket, "]");
+	Token leftParenTok = Token(TokenType.LeftParen, "(");
+	Token rightParenTok = Token(TokenType.RightParen, ")");
+	Token semicolonTok = Token(TokenType.Semicolon, ";");
+	Token commaTok = Token(TokenType.Comma, ",");
+	Token assignTok = Token(TokenType.Assign, "=");
+	Token eqeqTok = Token(TokenType.Equals, "==");
+	Token ltTok = Token(TokenType.Less, "<");
+	Token lteqTok = Token(TokenType.LessEqual, "<=");
+	Token gtTok = Token(TokenType.Greater, ">");
+	Token gteqTok = Token(TokenType.GreaterEqual, ">=");
+	Token notTok = Token(TokenType.Not, "!");
+	Token noteqTok = Token(TokenType.NotEqual, "!=");
+	Token plusTok = Token(TokenType.Plus, "+");
+	Token minusTok = Token(TokenType.Minus, "-");
+	Token multiplyTok = Token(TokenType.Multiply, "*");
+	Token divideTok = Token(TokenType.Divide, "/");
+	Token andTok = Token(TokenType.And, "&&");
+	Token orTok = Token(TokenType.Or, "||");
+	Token returnTok = Token(TokenType.Return, "return");
+	Token voidTok = Token(TokenType.Void, "void");
+
+	TokenType type();
+	char* value();
+
+	private:
+		int KEYWORDS = tokenType.Eof; // tokenType.Eof returns the
+					      // integer value of where the
+					      // Eof token is in the enum
+		char * reserved; //= new string of size KEYWORDS
+		Token[] token = Token[KEYWORDS];
+		TokenType type;
+		char * value;
+
+};
+
+enum TokenType {
+
+	 Void, Bool, Char, Else, False, Float,
+     If, Int, Main, True, While, Return,
+     Eof, LeftBrace, RightBrace, LeftBracket, RightBracket,
+     LeftParen, RightParen, Semicolon, Comma, Assign,
+     Equals, Less, LessEqual, Greater, GreaterEqual,
+     Not, NotEqual, Plus, Minus, Multiply,
+     Divide, And, Or, Identifier, IntLiteral,
+     FloatLiteral, CharLiteral
+};
+
+
+*/
+
+/* OLD CODE / INSPIRATION
 
 //
         David Weinman
