@@ -7,6 +7,14 @@
 // ---- prototypes
 
 Token::Token(TokenType, char*);
+TokenType Token::type();
+char* Token::value();
+Token Token::keyword();
+Token Token::mkIdentTok(char *);
+Token Token::mkIntLiteral(char *);
+Token Token::mkFloatLiteral(char *);
+Token Token::mkCharLiteral(char *);
+char * Token::toString();
 int main(int, char**);
 
 // ---- def'ns
@@ -22,8 +30,9 @@ Token::Token(TokenType t, char * val) {
 
 }
 
-Token::type() { return type; }
-Token::value() { return value; }
+TokenType Token::type() { return type; }
+
+char* Token::value() { return value; }
 
 int main() {
 
@@ -101,7 +110,7 @@ enum TokenType {
 
 */
 
-/* OLD CODE / INSPIRATION
+/* OLD CODE / INSPIRATION (JAVA)
 
 //
         David Weinman
