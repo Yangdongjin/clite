@@ -9,7 +9,7 @@
 Token::Token(TokenType, char*);
 TokenType Token::type();
 char* Token::value();
-Token Token::keyword();
+Token Token::keyword(char *);
 Token Token::mkIdentTok(char *);
 Token Token::mkIntLiteral(char *);
 Token Token::mkFloatLiteral(char *);
@@ -34,6 +34,19 @@ TokenType Token::type() { return type; }
 
 char* Token::value() { return value; }
 
+Token Token::keyword(char * name) {
+
+	int i;
+	char ch = *name;
+
+	if (ch >= 'A' && ch <= 'Z') return mkIdentTok(name); 
+	//for (i = 0; i < KEYWORDS; i++) {
+	//	if (equals(name, reserved[i])) return token[i];
+	//}
+	return mkIdentTok(name);
+
+}
+
 int main() {
 
 
@@ -45,44 +58,14 @@ int main() {
 
 struct Token {
 
-	Token eofTok = Token(TokenType.Eof, "<<EOF>>");
-	Token boolTok = Token(TokenType.Bool, "bool");
-	Token charTok = Token(TokenType.Char, "char");
-	Token elseTok = Token(TokenType.Else, "else");
-	Token falseTok = Token(TokenType.False, "false");
-	Token floatTok = Token(TokenType.Float, "float");
-	Token ifTok = Token(TokenType.If, "if");
-	Token intTok = Token(TokenType.Int, "int");
-	Token mainTok = Token(TokenType.Main, "main");
-	Token trueTok = Token(TokenType.True, "true");
-	Token whileTok = Token(TokenType.While, "while");
-	Token leftBraceTok = Token(TokenType.LeftBrace, "{");
-	Token rightBraceTok = Token(TokenType.RightBrace, "}");
-	Token leftBracketTok = Token(TokenType.LeftBracket, "[");
-	Token rightBracketTok = Token(TokenType.RightBracket, "]");
-	Token leftParenTok = Token(TokenType.LeftParen, "(");
-	Token rightParenTok = Token(TokenType.RightParen, ")");
-	Token semicolonTok = Token(TokenType.Semicolon, ";");
-	Token commaTok = Token(TokenType.Comma, ",");
-	Token assignTok = Token(TokenType.Assign, "=");
-	Token eqeqTok = Token(TokenType.Equals, "==");
-	Token ltTok = Token(TokenType.Less, "<");
-	Token lteqTok = Token(TokenType.LessEqual, "<=");
-	Token gtTok = Token(TokenType.Greater, ">");
-	Token gteqTok = Token(TokenType.GreaterEqual, ">=");
-	Token notTok = Token(TokenType.Not, "!");
-	Token noteqTok = Token(TokenType.NotEqual, "!=");
-	Token plusTok = Token(TokenType.Plus, "+");
-	Token minusTok = Token(TokenType.Minus, "-");
-	Token multiplyTok = Token(TokenType.Multiply, "*");
-	Token divideTok = Token(TokenType.Divide, "/");
-	Token andTok = Token(TokenType.And, "&&");
-	Token orTok = Token(TokenType.Or, "||");
-	Token returnTok = Token(TokenType.Return, "return");
-	Token voidTok = Token(TokenType.Void, "void");
-
 	TokenType type();
 	char* value();
+	Token keyword(char *);
+	Token mkIdentTok(char *);
+	Token mkIntLiteral(char *);
+	Token mkFloatLiteral(char *);
+	Token mkCharLiteral(char *);
+	char* toString();
 
 	private:
 		int KEYWORDS = tokenType.Eof; // tokenType.Eof returns the
