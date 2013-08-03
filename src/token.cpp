@@ -15,7 +15,9 @@ Token Token::mkIntLiteral(char *);
 Token Token::mkFloatLiteral(char *);
 Token Token::mkCharLiteral(char *);
 char * Token::toString();
+
 int main(int, char**);
+int equals(char *, char *);
 
 // ---- def'ns
 
@@ -24,7 +26,7 @@ Token::Token(TokenType t, char * val) {
 	type = t;
 	value = val;
 	if (t < TokenType::Eof) {
-		reserved[t];
+		reserved[t] = val;
 		token[t] = this;
 	}	
 
@@ -40,10 +42,21 @@ Token Token::keyword(char * name) {
 	char ch = *name;
 
 	if (ch >= 'A' && ch <= 'Z') return mkIdentTok(name); 
-	//for (i = 0; i < KEYWORDS; i++) {
-	//	if (equals(name, reserved[i])) return token[i];
-	//}
+	for (i = 0; i < KEYWORDS; i++) {
+		if (equals(name, reserved[i])) return token[i];
+	}
 	return mkIdentTok(name);
+
+}
+
+int equals(char * str1, char * str2) {
+
+	while (*str1 == *str2) {
+		str1++;
+		str2++;
+		if ((*str1 == '\0') && (*str2 == '\0')) return 1;
+	}
+	return 0;
 
 }
 
