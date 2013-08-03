@@ -7,13 +7,8 @@
 // ---- prototypes
 
 Token::Token(TokenType, char*);
-TokenType Token::type();
-char* Token::value();
-Token Token::keyword(char *);
-Token Token::mkIdentTok(char *);
-Token Token::mkIntLiteral(char *);
-Token Token::mkFloatLiteral(char *);
-Token Token::mkCharLiteral(char *);
+TokenType Token::getType();
+char* Token::getValue();
 char * Token::toString();
 
 int main(int, char**);
@@ -32,30 +27,9 @@ Token::Token(TokenType t, char * val) {
 
 }
 
-TokenType Token::type() { return type; }
+TokenType Token::getType() { return type; }
 
-char* Token::value() { return value; }
-
-Token Token::keyword(char * name) {
-
-	int i;
-	char ch = *name;
-
-	if (ch >= 'A' && ch <= 'Z') return mkIdentTok(name); 
-	for (i = 0; i < KEYWORDS; i++) {
-		if (equals(name, reserved[i])) return token[i];
-	}
-	return mkIdentTok(name);
-
-}
-
-Token Token::mkIdentTok(char * name) { return Token(TokenType.Identifier, name); }
-
-Token Token::mkIntLiteral(char * name) { return Token(TokenType.IntLiteral, name); }
-
-Token Token::mkFloatLiteral(char * name) { return Token(TokenType.FloatLiteral, name); }
-
-Token Token::mkCharLiteral(char * name) { return Token(TokenType.CharLiteral, name); }
+char* Token::getValue() { return value; }
 
 char* Token::toString() { if (type < TokenType.Identifier) return value; return (char) type + '\t' + value; }
 
@@ -77,37 +51,10 @@ int main() {
 
 }
 
-
 /* HEADER
-
-// token.hpp
-// by David Weinman
-// 7/22/13 10:15p
 
 #ifndef TOKEN_H_
 #define TOKEN_H_
-
-struct Token {
-
-	TokenType type();
-	char* value();
-	Token keyword(char *);
-	Token mkIdentTok(char *);
-	Token mkIntLiteral(char *);
-	Token mkFloatLiteral(char *);
-	Token mkCharLiteral(char *);
-	char* toString();
-
-	private:
-		int KEYWORDS = tokenType.Eof; // tokenType.Eof returns the
-					      // integer value of where the
-					      // Eof token is in the enum
-		char * reserved; //= new string of size KEYWORDS
-		Token[] token = Token[KEYWORDS];
-		TokenType type;
-		char * value;
-
-};
 
 enum TokenType {
 
@@ -119,54 +66,93 @@ enum TokenType {
      Not, NotEqual, Plus, Minus, Multiply,
      Divide, And, Or, Identifier, IntLiteral,
      FloatLiteral, CharLiteral
+
 };
 
-Token eofTok = Token(TokenType.Eof, "<<EOF>>");
-Token boolTok = Token(TokenType.Bool, "bool");
-Token charTok = Token(TokenType.Char, "char");
-Token elseTok = Token(TokenType.Else, "else");
-Token falseTok = Token(TokenType.False, "false");
-Token floatTok = Token(TokenType.Float, "float");
-Token ifTok = Token(TokenType.If, "if");
-Token intTok = Token(TokenType.Int, "int");
-Token mainTok = Token(TokenType.Main, "main");
-Token trueTok = Token(TokenType.True, "true");
-Token whileTok = Token(TokenType.While, "while");
-Token leftBraceTok = Token(TokenType.LeftBrace, "{");
-Token rightBraceTok = Token(TokenType.RightBrace, "}");
-Token leftBracketTok = Token(TokenType.LeftBracket, "[");
-Token rightBracketTok = Token(TokenType.RightBracket, "]");
-Token leftParenTok = Token(TokenType.LeftParen, "(");
-Token rightParenTok = Token(TokenType.RightParen, ")");
-Token semicolonTok = Token(TokenType.Semicolon, ";");
-Token commaTok = Token(TokenType.Comma, ",");
-Token assignTok = Token(TokenType.Assign, "=");
-Token eqeqTok = Token(TokenType.Equals, "==");
-Token ltTok = Token(TokenType.Less, "<");
-Token lteqTok = Token(TokenType.LessEqual, "<=");
-Token gtTok = Token(TokenType.Greater, ">");
-Token gteqTok = Token(TokenType.GreaterEqual, ">=");
-Token notTok = Token(TokenType.Not, "!");
-Token noteqTok = Token(TokenType.NotEqual, "!=");
-Token plusTok = Token(TokenType.Plus, "+");
-Token minusTok = Token(TokenType.Minus, "-");
-Token multiplyTok = Token(TokenType.Multiply, "*");
-Token divideTok = Token(TokenType.Divide, "/");
-Token andTok = Token(TokenType.And, "&&");
-Token orTok = Token(TokenType.Or, "||");
-Token returnTok = Token(TokenType.Return, "return");
-Token voidTok = Token(TokenType.Void, "void");
+struct Token {
+
+	TokenType getType();
+	char* getValue();
+	char* toString();
+
+	private:
+		char * reserved; //= new string of size KEYWORDS
+		TokenType type;
+		char * value;
+
+};
+
+// ---- prototypes
+
+Token keyword(char *);
+Token mkIdentTok(char *);
+Token mkIntLiteral(char *);
+Token mkFloatLiteral(char *);
+Token mkCharLiteral(char *);
+
+// ---- constants
+
+const int KEYWORDS = Eof;
+Token token[KEYWORDS];
+Token eofTok = Token(Eof, "<<EOF>>");
+Token boolTok = Token(Bool, "bool");
+Token charTok = Token(Char, "char");
+Token elseTok = Token(Else, "else");
+Token falseTok = Token(False, "false");
+Token floatTok = Token(Float, "float");
+Token ifTok = Token(If, "if");
+Token intTok = Token(Int, "int");
+Token mainTok = Token(Main, "main");
+Token trueTok = Token(True, "true");
+Token whileTok = Token(While, "while");
+Token leftBraceTok = Token(LeftBrace, "{");
+Token rightBraceTok = Token(RightBrace, "}");
+Token leftBracketTok = Token(LeftBracket, "[");
+Token rightBracketTok = Token(RightBracket, "]");
+Token leftParenTok = Token(LeftParen, "(");
+Token rightParenTok = Token(RightParen, ")");
+Token semicolonTok = Token(Semicolon, ";");
+Token commaTok = Token(Comma, ",");
+Token assignTok = Token(Assign, "=");
+Token eqeqTok = Token(Equals, "==");
+Token ltTok = Token(Less, "<");
+Token lteqTok = Token(LessEqual, "<=");
+Token gtTok = Token(Greater, ">");
+Token gteqTok = Token(GreaterEqual, ">=");
+Token notTok = Token(Not, "!");
+Token noteqTok = Token(NotEqual, "!=");
+Token plusTok = Token(Plus, "+");
+Token minusTok = Token(Minus, "-");
+Token multiplyTok = Token(Multiply, "*");
+Token divideTok = Token(Divide, "/");
+Token andTok = Token(And, "&&");
+Token orTok = Token(Or, "||");
+Token returnTok = Token(Return, "return");
+Token voidTok = Token(Void, "void");
+
+// ---- def'ns
+
+Token keyword(char * name) {
+
+	int i;
+	char ch = *name;
+
+	if (ch >= 'A' && ch <= 'Z') return mkIdentTok(name); 
+	for (i = 0; i < KEYWORDS; i++) {
+		if (equals(name, reserved[i])) return token[i];
+	}
+	return mkIdentTok(name);
+
+}
+
+Token mkIdentTok(char * name) { return Token(Identifier, name); }
+
+Token mkIntLiteral(char * name) { return Token(IntLiteral, name); }
+
+Token mkFloatLiteral(char * name) { return Token(FloatLiteral, name); }
+
+Token mkCharLiteral(char * name) { return Token(CharLiteral, name); }
 
 #endif / TOKEN_H_ /
-
-
-
-    public static void main (String[] args) {
-        System.out.println(eofTok.value);
-        System.out.println(whileTok.value);
-        System.out.println(returnTok.value);
-        System.out.println(voidTok.value);
-    }
-
 
 */

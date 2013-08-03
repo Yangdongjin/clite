@@ -15,35 +15,45 @@ enum TokenType {
      Not, NotEqual, Plus, Minus, Multiply,
      Divide, And, Or, Identifier, IntLiteral,
      FloatLiteral, CharLiteral
+
 };
 
 struct Token {
 
-	TokenType type();
-	char* value();
-	Token keyword(char *);
-	Token mkIdentTok(char *);
-	Token mkIntLiteral(char *);
-	Token mkFloatLiteral(char *);
-	Token mkCharLiteral(char *);
+	TokenType getType();
+	char* getValue();
 	char* toString();
 
 	private:
-		int numberOfKeywords = Eof; // Eof returns the
-					      // integer value of where the
-					      // Eof token is in the enum
 		char * reserved; //= new string of size KEYWORDS
-		Token token[] = Token[numberOfKeywords];
 		TokenType type;
 		char * value;
 
 };
 
-Token eofTok = Token(Eof, "<<EOF>>");
-Token boolTok = Token(Bool, "bool");
-Token charTok = Token(Char, "char");
-Token elseTok = Token(Else, "else");
-Token falseTok = Token(False, "false");
+// ---- prototypes
+
+Token keyword(char *);
+Token mkIdentTok(char *);
+Token mkIntLiteral(char *);
+Token mkFloatLiteral(char *);
+Token mkCharLiteral(char *);
+
+// ---- constants
+
+char * eofStr = "<<EOF>>";
+char * boolStr = "bool";
+char * charStr = "char";
+char * elseStr = "else";
+char * falseStr = "false";
+
+const int KEYWORDS = Eof;
+Token token[KEYWORDS];
+Token eofTok = Token(Eof, eofStr);
+Token boolTok = Token(Bool, boolStr);
+Token charTok = Token(Char, charStr);
+Token elseTok = Token(Else, elseStr);
+Token falseTok = Token(False, falseStr);
 Token floatTok = Token(Float, "float");
 Token ifTok = Token(If, "if");
 Token intTok = Token(Int, "int");
@@ -75,10 +85,32 @@ Token orTok = Token(Or, "||");
 Token returnTok = Token(Return, "return");
 Token voidTok = Token(Void, "void");
 
+// ---- def'ns
+
+Token keyword(char * name) {
+
+	int i;
+	char ch = *name;
+
+	if (ch >= 'A' && ch <= 'Z') return mkIdentTok(name); 
+	for (i = 0; i < KEYWORDS; i++) {
+		if (equals(name, reserved[i])) return token[i];
+	}
+	return mkIdentTok(name);
+
+}
+
+Token mkIdentTok(char * name) { return Token(Identifier, name); }
+
+Token mkIntLiteral(char * name) { return Token(IntLiteral, name); }
+
+Token mkFloatLiteral(char * name) { return Token(FloatLiteral, name); }
+
+Token mkCharLiteral(char * name) { return Token(CharLiteral, name); }
+
 #endif /* TOKEN_H_ */
 
 /*
-
 
         David Weinman
         The Evergreen State College / Computability and the study of Formal Languages
@@ -185,44 +217,5 @@ Token voidTok = Token(Void, "void");
         System.out.println(voidTok.value);
     }
 } // Token
-
-// -----------
-
-	Token eofTok = Token(Eof, "<<EOF>>");
-	Token boolTok = Token(Bool, "bool");
-	Token charTok = Token(Char, "char");
-	Token elseTok = Token(Else, "else");
-	Token falseTok = Token(False, "false");
-	Token floatTok = Token(Float, "float");
-	Token ifTok = Token(If, "if");
-	Token intTok = Token(Int, "int");
-	Token mainTok = Token(Main, "main");
-	Token trueTok = Token(True, "true");
-	Token whileTok = Token(While, "while");
-	Token leftBraceTok = Token(LeftBrace, "{");
-	Token rightBraceTok = Token(RightBrace, "}");
-	Token leftBracketTok = Token(LeftBracket, "[");
-	Token rightBracketTok = Token(RightBracket, "]");
-	Token leftParenTok = Token(LeftParen, "(");
-	Token rightParenTok = Token(RightParen, ")");
-	Token semicolonTok = Token(Semicolon, ";");
-	Token commaTok = Token(Comma, ",");
-	Token assignTok = Token(Assign, "=");
-	Token eqeqTok = Token(Equals, "==");
-	Token ltTok = Token(Less, "<");
-	Token lteqTok = Token(LessEqual, "<=");
-	Token gtTok = Token(Greater, ">");
-	Token gteqTok = Token(GreaterEqual, ">=");
-	Token notTok = Token(Not, "!");
-	Token noteqTok = Token(NotEqual, "!=");
-	Token plusTok = Token(Plus, "+");
-	Token minusTok = Token(Minus, "-");
-	Token multiplyTok = Token(Multiply, "*");
-	Token divideTok = Token(Divide, "/");
-	Token andTok = Token(And, "&&");
-	Token orTok = Token(Or, "||");
-	Token returnTok = Token(Return, "return");
-	Token voidTok = Token(Void, "void");
-
 
 */
