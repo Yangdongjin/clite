@@ -33,7 +33,6 @@ struct Token {
 
 };
 
-
 // ---- prototypes
 
 int equals(char *, char *);
@@ -47,6 +46,10 @@ Token mkCharLiteral(char *);
 
 const int KEYWORDS = Eof;
 
+// ---- variables
+
+char reserved[KEYWORDS];
+Token token[KEYWORDS];
 Token eofTok = Token(Eof, "<<EOF>>");
 Token boolTok = Token(Bool, "bool");
 Token charTok = Token(Char, "char");
@@ -82,11 +85,6 @@ Token andTok = Token(And, "&");
 Token orTok = Token(Or, "||");
 Token returnTok = Token(Return, "return");
 Token voidTok = Token(Void, "void");
-
-// ---- variables
-
-char reserved[KEYWORDS];
-Token token[KEYWORDS];
 
 // ---- def'ns
 
@@ -145,7 +143,3 @@ Token mkFloatLiteral(char * name) { return Token(FloatLiteral, name); }
 Token mkCharLiteral(char * name) { return Token(CharLiteral, name); }
 
 #endif /* TOKEN_H_ */
-
-/*
-
-*/
