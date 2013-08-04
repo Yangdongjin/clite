@@ -5,7 +5,7 @@
 #ifndef LEXER_H_
 #define LEXER_H_
 #include <stdio.h>
-#include <string.h>
+#include <cstring>
 #include "token.hpp"
 
 struct Lexer {
@@ -29,6 +29,10 @@ struct Lexer {
 
 };
 
+// ---- prototypes
+
+int indexOf(char, char*);
+
 // ---- constants
 
 const int bufsize = 1024;
@@ -40,14 +44,14 @@ const char eofCh = '\004';
 
 // ---- variables
 
-char * input = "";
+char * input;
 char currentLine[bufsize];
 
 // ---- def'ns
 
 Lexer::Lexer(char * filename) {
 
-	if (infh = fopen(filename, "r") == NULL) {
+	if ((infh = fopen(filename, "r")) == NULL) {
 		printf("LEXERR: %s: %s", strerror(errno), filename);
 		exit(1);
 	} else if (fgets(input, bufsize, infh) == NULL) {
@@ -63,51 +67,89 @@ Lexer::Lexer(char * filename) {
 
 }
 
-Lexer::error(char * msg) {
+void Lexer::error(char * msg) {
 
 	printf("LEXERR(%d): %s", lineno, msg);
 	exit(1);
 
 }
 
-/*
-    private char nextChar() { // Return next char
-        if (ch == eofCh)
-            error("Attempt to read past end of file");
-        col++;
-        if (col >= line.length()) {
-            try {
-                line = input.readLine( );
-            } catch (IOException e) {
-                System.err.println(e);
-                System.exit(1);
-            } // try
-            if (line == null) // at end of file
-                line = "" + eofCh;
-            else {
-                // System.out.println(lineno + ":\t" + line);
-                lineno++;
-                line += eolnCh;
-            } // if line
-            col = 0;
-        } // if col
-        return line.charAt(col);
-    }
-*/
-
-/*
 char Lexer::nextChar() {
 
 	if (ch == eofCh) error("Attempt to read past end of file.");
 	col++;
 	if (col >= lenLine) {
 		if (fgets(input, bufsize, infh) == NULL) {
-			
+			input = "" + eofTok.toString();
+		} else {
+			lineno++;
+			input += '\n';
+			snprintf(&currentLine, bufsize, input);
 		}
+		col = 0;
 	}
+	return currentLine[col];
 
 }
-*/
+
+int Lexer::isLetter(char c) {
+
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+
+}
+
+int Lexer::isDigit(char c) {
+
+	return (c >= '0' && c <= '9');
+
+}
+
+void Lexer::check(char c) {
+	char * errMsg;
+	ch = nextChar();
+	if (ch != c) {
+		snprintf(errMsg, bufsize, "Illegal character, expecting: %c", c);
+		error(errMsg);
+	}
+	ch = nextChar();
+
+}
+
+Token Lexer::chkOpt(char c, Token one, Token two) {
+
+	ch = nextChar();
+	if (ch == c) return two;
+	return one;
+
+}
+
+char * Lexer::concat(char * set) {
+	char setArry[bufsize];
+	snprintf(setArry, bufsize, set);
+	char * r = "";
+	do {
+		snprintf(r, bufsize, "%s%c", r, c);
+		ch = nextChar();
+	} while (indexOf(ch, setArry) >= 0)
+	return r;
+
+}
+
+int indexOf(char c, char * string) {
+
+	char arry[bufsize];
+	int i = 0;
+	snprintf(arry, bufsize, string);
+	do {
+		if (arry[i] == c) {
+			return i;
+		}
+		i++;
+	}
+	snprintf(arry, bufsize, "indexOf couldn't find %c in %s.", c, string);
+	error(&arry);
+
+}
 
 #endif /* LEXER_H_ */
 
