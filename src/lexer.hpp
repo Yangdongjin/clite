@@ -4,6 +4,7 @@
 
 #ifndef LEXER_H_
 #define LEXER_H_
+#include <stdio.h>
 #include "token.hpp"
 
 struct Lexer {
@@ -15,6 +16,7 @@ struct Lexer {
 	void error(char*);
 	Lexer(char * filename);
 	private:
+		FILE * infh;
 		int col;
 		char nextChar();
 		int isLetter(char);
@@ -25,11 +27,29 @@ struct Lexer {
 
 };
 
+// ---- constants
+
 const char * letters = "abcdefghijklmnopqrstuvwxyz\
 ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const char * digits = "0123456789";
 const char eolnCh = '\n';
 const char eofCh = '\004';
+
+// ---- def'ns
+
+Lexer::error(char * msg) {
+
+	
+
+}
+
+Lexer::Lexer(char * filename) {
+
+	if (infh = fopen(filename, "r") == NULL) {
+		printf("LEXERR: Could not open source file: %s", filename);
+	}
+
+}
 
 #endif /* LEXER_H_ */
 
