@@ -5,6 +5,7 @@
 #ifndef LEXER_H_
 #define LEXER_H_
 #include <stdio.h>
+#include <string.h>
 #include "token.hpp"
 
 struct Lexer {
@@ -18,6 +19,7 @@ struct Lexer {
 	private:
 		FILE * infh;
 		int col;
+		int lenLine;
 		char nextChar();
 		int isLetter(char);
 		int isDigit(char);
@@ -29,27 +31,83 @@ struct Lexer {
 
 // ---- constants
 
+const int bufsize = 1024;
 const char * letters = "abcdefghijklmnopqrstuvwxyz\
 ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const char * digits = "0123456789";
 const char eolnCh = '\n';
 const char eofCh = '\004';
 
+// ---- variables
+
+char * input = "";
+char currentLine[bufsize];
+
 // ---- def'ns
-
-Lexer::error(char * msg) {
-
-	
-
-}
 
 Lexer::Lexer(char * filename) {
 
 	if (infh = fopen(filename, "r") == NULL) {
-		printf("LEXERR: Could not open source file: %s", filename);
+		printf("LEXERR: %s: %s", strerror(errno), filename);
+		exit(1);
+	} else if (fgets(input, bufsize, infh) == NULL) {
+		printf("LEXERR: %s: %s", strerror(errno), filename);
+		exit(1);
+	} else {
+		lenLine = snprintf(&currentLine, bufsize, "%s", input);
+		ch = currentLine[0];
+		lineno = 0;
+		isEof = 0;
+		col = 1;
 	}
 
 }
+
+Lexer::error(char * msg) {
+
+	printf("LEXERR(%d): %s", lineno, msg);
+	exit(1);
+
+}
+
+/*
+    private char nextChar() { // Return next char
+        if (ch == eofCh)
+            error("Attempt to read past end of file");
+        col++;
+        if (col >= line.length()) {
+            try {
+                line = input.readLine( );
+            } catch (IOException e) {
+                System.err.println(e);
+                System.exit(1);
+            } // try
+            if (line == null) // at end of file
+                line = "" + eofCh;
+            else {
+                // System.out.println(lineno + ":\t" + line);
+                lineno++;
+                line += eolnCh;
+            } // if line
+            col = 0;
+        } // if col
+        return line.charAt(col);
+    }
+*/
+
+/*
+char Lexer::nextChar() {
+
+	if (ch == eofCh) error("Attempt to read past end of file.");
+	col++;
+	if (col >= lenLine) {
+		if (fgets(input, bufsize, infh) == NULL) {
+			
+		}
+	}
+
+}
+*/
 
 #endif /* LEXER_H_ */
 
