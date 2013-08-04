@@ -4,33 +4,32 @@
 
 #ifndef LEXER_H_
 #define LEXER_H_
+#include "token.hpp"
 
 struct Lexer {
 
-        Lexer(char * filename);
-        Token next();
-        void error(char *);
-        void main(char *);
-
-        private:
-                static bool isEof = false;
-                static char ch = ' ';
-                static char[] line = "";
-                int lineno = 0;
-                int col = 1;
-                char[] letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                char[] digits = "0123456789";
-                char eolnCh = '\n';
-                char eofCh = '\004';
-                char nextChar();
-                bool isLetter(char);
-                bool isDigit(char);
-                void check(char);
-                Token checkOpt(char, Token, Token);
-                char * concat(String);
+	int isEof;
+	char ch;
+	int lineno;
+	Token next();
+	void error(char*);
+	Lexer(char * filename);
+	private:
+		int col;
+		char nextChar();
+		int isLetter(char);
+		int isDigit(char);
+		void check(char);
+		Token chkOpt(char, Token, Token);
+		char* concat(char*);
 
 };
 
+const char * letters = "abcdefghijklmnopqrstuvwxyz\
+ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const char * digits = "0123456789";
+const char eolnCh = '\n';
+const char eofCh = '\004';
 
 #endif /* LEXER_H_ */
 

@@ -3,42 +3,53 @@
 // 7/17/13 11:30p
 
 #include "lexer.hpp"
+#include "token.hpp"
+#include <stdio.h>
+
+// ---- prototypes
+
+int main(int, char**);
+
+// ---- def'ns
+
+int main(int argc, char ** argv) {
+
+	printf("\neofTok value: %s\n", eofTok.toString());
+	return 0;
+
+}
+
 
 /* *** lexer.hpp ***
 
-struct lexer {
+#include "token.hpp"
 
-        lexer(char * filename);
-        Token next();
-        void error(char *);
-        void main(char *);
+struct Lexer {
 
-        private:
-                static bool isEof = false;
-                static char ch = ' ';
-                static char[] line = "";
-                int lineno = 0;
-                int col = 1;
-                char[] letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                char[] digits = "0123456789";
-                char eolnCh = '\n';
-                char eofCh = '\004';
-                char nextChar();
-                bool isLetter(char);
-                bool isDigit(char);
-                void check(char);
-                Token checkOpt(char, Token, Token);
-                char * concat(String);
+	int isEof = 0;
+	char ch = ' ';
+	int lineno = 0;
+	Token next();
+	void error(char*);
+	private:
+		int col = 1;
+		char nextChar();
+		int isLetter(char);
+		int isDigit(char);
+		void check(char);
+		Token chkOpt(char, Token, Token);
+		char* concat(char*);
 
 };
 
+const char * letters = "abcdefghijklmnopqrstuvwxyz\
+ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const char * digits = "0123456789";
+const char eolnCh = '\n';
+const char eofCh = '\004';
+
+
 */
-
-Lexer::Lexer(char * filename) {
-
-		// input = text in filename.
-
-}
 
 /* PSEUDO
 
