@@ -48,6 +48,7 @@ const char eofCh = '\004';
 
 char * input;
 char currentLine[bufsize];
+char * concatStr;
 
 // ---- def'ns
 
@@ -67,7 +68,7 @@ Lexer::Lexer(char * filename) {
 		col = 1;
 	}
 
-}
+} // Lexer
 
 void Lexer::error(char * msg) {
 
@@ -93,6 +94,123 @@ char Lexer::nextChar() {
 	return currentLine[col];
 
 }
+
+Token Lexer::next() {
+
+	do {
+
+		if (isLetter(ch)) {
+
+			snprintf(concatStr, bufsize, "%s%s", letters, digits);
+			char * spelling = concat(concatStr);
+			return keyword(spelling);
+
+		} else if (isDigit(ch)) {
+
+			char * number = concat((char *) digits);
+			if (ch != '.') return mkIntLiteral(number);
+			snprintf(number, bufsize, "%s%s", number, digits);
+			return mkFloatLiteral(number);
+
+		} else switch (ch) {
+
+			case ' ': case '\t': case '\r': case eolnCh:
+				ch = nextChar();
+				break;
+
+			case '/': // divide or comment
+				ch = nextChar();
+				if (ch != '/') return divideTok;
+				// comment
+				do {
+					ch = nextChar();
+				} while (ch != eolnCh);
+				ch = nextChar();
+				break;
+
+			case '\'': // char literal
+				char ch1;
+				ch1 = nextChar();
+				nextChar(); // get '
+				ch = nextChar();
+				return mkCharLiteral(&ch1);
+
+			case eofCh:
+				return eofTok;
+
+			case '+':
+				ch = nextChar();
+				return plusTok;
+
+			case '-':
+				ch = nextChar();
+				return minusTok;
+
+			case '*':
+				ch = nextChar();
+				return multiplyTok;
+
+			case '(':
+				ch = nextChar();
+				return leftParenTok;
+
+			case ')':
+				ch = nextChar();
+				return rightParenTok;
+
+			case '{':
+				ch = nextChar();
+				return leftBraceTok;
+
+			case '}':
+				ch = nextChar();
+		 		return rightBraceTok;
+
+			case ';':
+				ch = nextChar();
+				return semicolonTok;
+			case ',':
+	    		ch = nextChar();
+				return commaTok;
+
+			case '[':
+				ch = nextChar();
+				return leftBracketTok;
+
+			case ']':
+				ch = nextChar();
+				return rightBracketTok;
+
+                // - * ( ) { } ; ,  student exercise
+                
+            case '&': check('&'); return andTok;
+            case '|': check('|'); return orTok;
+
+            case '=':
+                return chkOpt('=', assignTok,
+                                   eqeqTok);
+			case '<':
+	    		ch = nextChar();
+				return ltTok;
+
+			case '>':
+				ch = nextChar();
+				return gtTok;
+
+		    case '!':
+				return chkOpt('=', notTok,
+				   noteqTok);
+
+			default:
+				char * errStr;
+				snprintf(errStr, bufsize, "Illegal character %c", ch);
+				error(errStr);
+
+		} // switch
+
+	} while (1);
+
+} // next
 
 int Lexer::isLetter(char c) {
 
@@ -150,9 +268,7 @@ int indexOf(char c, char * string) {
 		}
 		i++;
 	} while(arry[i] != '\0');
-	snprintf(arry, bufsize, "indexOf couldn't find %c in %s.", c, string);
-	printf("LEXERR : %s", arry);
-	exit(1);
+	return -1;
 
 }
 

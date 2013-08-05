@@ -14,7 +14,15 @@ int main(int, char**);
 
 int main(int argc, char ** argv) {
 
-	printf("\neofTok value: %s\n", eofTok.toString());
+	//printf("\neofTok value: %s\n", eofTok.toString());
+	Lexer lexer = Lexer(*(++argv));
+	while (!lexer.isEof) {
+
+		printf("current token: %c\n", lexer.ch);
+		lexer.next();
+	
+	}
+	puts("done!");
 	return 0;
 
 }
