@@ -5,7 +5,9 @@
 #ifndef LEXER_H_
 #define LEXER_H_
 #include <stdio.h>
+#include <cstdlib>
 #include <cstring>
+#include <cerrno>
 #include "token.hpp"
 
 struct Lexer {
@@ -58,7 +60,7 @@ Lexer::Lexer(char * filename) {
 		printf("LEXERR: %s: %s", strerror(errno), filename);
 		exit(1);
 	} else {
-		lenLine = snprintf(&currentLine, bufsize, "%s", input);
+		lenLine = snprintf(currentLine, bufsize, "%s", input);
 		ch = currentLine[0];
 		lineno = 0;
 		isEof = 0;
@@ -76,15 +78,15 @@ void Lexer::error(char * msg) {
 
 char Lexer::nextChar() {
 
-	if (ch == eofCh) error("Attempt to read past end of file.");
+	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
 	col++;
 	if (col >= lenLine) {
 		if (fgets(input, bufsize, infh) == NULL) {
-			input = "" + eofTok.toString();
+			snprintf(input, bufsize, "%s%s", input, eofTok.toString());
 		} else {
 			lineno++;
 			input += '\n';
-			snprintf(&currentLine, bufsize, input);
+			snprintf(currentLine, bufsize, "%s", input);
 		}
 		col = 0;
 	}
@@ -105,6 +107,7 @@ int Lexer::isDigit(char c) {
 }
 
 void Lexer::check(char c) {
+
 	char * errMsg;
 	ch = nextChar();
 	if (ch != c) {
@@ -124,13 +127,14 @@ Token Lexer::chkOpt(char c, Token one, Token two) {
 }
 
 char * Lexer::concat(char * set) {
+
 	char setArry[bufsize];
-	snprintf(setArry, bufsize, set);
-	char * r = "";
+	snprintf(setArry, bufsize, "%s", set);
+	char * r;
 	do {
-		snprintf(r, bufsize, "%s%c", r, c);
+		snprintf(r, bufsize, "%s%c", r, ch);
 		ch = nextChar();
-	} while (indexOf(ch, setArry) >= 0)
+	} while (indexOf(ch, setArry) >= 0);
 	return r;
 
 }
@@ -139,15 +143,16 @@ int indexOf(char c, char * string) {
 
 	char arry[bufsize];
 	int i = 0;
-	snprintf(arry, bufsize, string);
+	snprintf(arry, bufsize, "%s", string);
 	do {
 		if (arry[i] == c) {
 			return i;
 		}
 		i++;
-	}
+	} while(arry[i] != '\0');
 	snprintf(arry, bufsize, "indexOf couldn't find %c in %s.", c, string);
-	error(&arry);
+	printf("LEXERR : %s", arry);
+	exit(1);
 
 }
 
