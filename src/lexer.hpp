@@ -48,21 +48,28 @@ const char eofCh = '\004';
 
 char * input;
 char currentLine[bufsize];
+char nextStr[bufsize];
 char * concatStr;
 
 // ---- def'ns
 
 Lexer::Lexer(char * filename) {
 
+	puts("lexer constructer 1");
 	if ((infh = fopen(filename, "r")) == NULL) {
-		printf("LEXERR: %s: %s", strerror(errno), filename);
+		printf("LEXERR: %s: %s\n", strerror(errno), filename);
 		exit(1);
-	} else if (fgets(input, bufsize, infh) == NULL) {
-		printf("LEXERR: %s: %s", strerror(errno), filename);
+	} else if (fgets(currentLine, bufsize, infh) == NULL) {
+		input = currentLine;
+		printf("LEXERR: %s: %s\n", strerror(errno), filename);
+		puts("lexer constructer 2");
 		exit(1);
 	} else {
+		puts("lexer constructer 2");
 		lenLine = snprintf(currentLine, bufsize, "%s", input);
+		puts("lexer constructer 3");
 		ch = currentLine[0];
+		puts("lexer constructer 4");
 		lineno = 0;
 		isEof = 0;
 		col = 1;
@@ -82,8 +89,10 @@ char Lexer::nextChar() {
 	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
 	col++;
 	if (col >= lenLine) {
-		if (fgets(input, bufsize, infh) == NULL) {
-			snprintf(input, bufsize, "%s%s", input, eofTok.toString());
+		if (fgets(currentLine, bufsize, infh) == NULL) {
+			input = currentLine;
+			snprintf(nextStr, bufsize, "%s%s", input, eofTok.toString());
+			input = nextStr;
 		} else {
 			lineno++;
 			input += '\n';
@@ -98,20 +107,25 @@ char Lexer::nextChar() {
 Token Lexer::next() {
 
 	do {
-
+puts("lexer const 1");
 		if (isLetter(ch)) {
-
-			snprintf(concatStr, bufsize, "%s%s", letters, digits);
+puts("lexer const 2");
+			snprintf(nextStr, bufsize, "%s%s", letters, digits);
+			concatStr = nextStr;
+puts("lexer const 6");
 			char * spelling = concat(concatStr);
 			return keyword(spelling);
-
+puts("lexer const 3");
 		} else if (isDigit(ch)) {
-
+puts("lexer const 4");
 			char * number = concat((char *) digits);
+			puts("lexer const 5");
+			snprintf(nextStr, bufsize, "%s", number);
+		puts("lexer const 6");
 			if (ch != '.') return mkIntLiteral(number);
-			snprintf(number, bufsize, "%s%s", number, digits);
-			return mkFloatLiteral(number);
-
+			snprintf(nextStr, bufsize, "%s%s", number, digits);
+			return mkFloatLiteral(nextStr);
+puts("lexer constructer 1");
 		} else switch (ch) {
 
 			case ' ': case '\t': case '\r': case eolnCh:
@@ -202,9 +216,9 @@ Token Lexer::next() {
 				   noteqTok);
 
 			default:
-				char * errStr;
+				char errStr[bufsize];
 				snprintf(errStr, bufsize, "Illegal character %c", ch);
-				error(errStr);
+				error((char *) errStr);
 
 		} // switch
 
@@ -226,11 +240,11 @@ int Lexer::isDigit(char c) {
 
 void Lexer::check(char c) {
 
-	char * errMsg;
+	char errMsg[bufsize];
 	ch = nextChar();
 	if (ch != c) {
 		snprintf(errMsg, bufsize, "Illegal character, expecting: %c", c);
-		error(errMsg);
+		error((char *) errMsg);
 	}
 	ch = nextChar();
 
@@ -250,7 +264,8 @@ char * Lexer::concat(char * set) {
 	snprintf(setArry, bufsize, "%s", set);
 	char * r;
 	do {
-		snprintf(r, bufsize, "%s%c", r, ch);
+		snprintf(nextStr, bufsize, "%s%c", r, ch);
+		r = nextStr;
 		ch = nextChar();
 	} while (indexOf(ch, setArry) >= 0);
 	return r;
