@@ -261,8 +261,8 @@ Token Lexer::chkOpt(char c, Token one, Token two) {
 char * Lexer::concat(char * set) {
 
 	char setArry[bufsize];
-	snprintf(setArry, bufsize, "%s", set);
 	char * r;
+	snprintf(setArry, bufsize, "%s", set);
 	do {
 		snprintf(nextStr, bufsize, "%s%c", r, ch);
 		r = nextStr;
