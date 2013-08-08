@@ -86,8 +86,12 @@ void Lexer::error(char * msg) {
 
 char Lexer::nextChar() {
 
+	printf("1addr of col: %p", &col);
+	printf("nextChar, ch == eofCh: %d, ch: %c, col: %d, lenLine: %d, lineno: %d\n", (ch == eofCh), ch, col++, lenLine, lineno);
+	printf("addr of col: %p", &col);
 	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
-	col++;
+	puts("hi!");
+	printf("addr of col: %p", &col); // seg fault 11
 	if (col >= lenLine) {
 		if (fgets(currentLine, bufsize, infh) == NULL) {
 			input = currentLine;
@@ -100,6 +104,7 @@ char Lexer::nextChar() {
 		}
 		col = 0;
 	}
+	printf("currentLine[col] = %c", currentLine[col]);
 	return currentLine[col];
 
 }
@@ -117,10 +122,10 @@ puts("lexer const 2");
 			concatStr = nextStr;
 puts("lexer const 6");
 			char * spelling = concat(concatStr);
+	puts("lexer const 3");
 			return keyword(spelling);
-puts("lexer const 3");
 		} else if (isDigit(ch)) {
-puts("lexer const 4");
+puts("lexer const 8");
 			char * number = concat((char *) digits);
 			puts("lexer const 5");
 			snprintf(nextStr, bufsize, "%s", number);
@@ -128,7 +133,7 @@ puts("lexer const 4");
 			if (ch != '.') return mkIntLiteral(number);
 			snprintf(nextStr, bufsize, "%s%s", number, digits);
 			return mkFloatLiteral(nextStr);
-puts("lexer constructer 1");
+puts("lexer const 7");
 		} else switch (ch) {
 
 			case ' ': case '\t': case '\r': case eolnCh:
@@ -172,6 +177,7 @@ puts("lexer constructer 1");
 				return leftParenTok;
 
 			case ')':
+				puts("lexer const 9");
 				ch = nextChar();
 				return rightParenTok;
 
@@ -224,6 +230,7 @@ puts("lexer constructer 1");
 				error((char *) errStr);
 
 		} // switch
+		puts("lexer const 10");
 		printf("\n%d (2) - c = %c\n", i, ch);
 
 	} while (1);
@@ -232,11 +239,15 @@ puts("lexer constructer 1");
 
 int Lexer::isLetter(char c) {
 
+	puts("lexer isLetter1");
+
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 
 }
 
 int Lexer::isDigit(char c) {
+
+	puts("lexer isDigit1");
 
 	return (c >= '0' && c <= '9');
 
@@ -265,7 +276,7 @@ Token Lexer::chkOpt(char c, Token one, Token two) {
 char * Lexer::concat(char * set) {
 
 	char setArry[bufsize];
-	char * r;
+	char * r = (char*) "";
 	snprintf(setArry, bufsize, "%s", set);
 	do {
 		snprintf(nextStr, bufsize, "%s%c", r, ch);
@@ -479,4 +490,32 @@ public class Lexer {
 }
 
 
+*/
+
+
+/* COPYPASTA
+
+// below -- doesn't work
+char Lexer::nextChar() {
+
+	printf("nextChar, ch == eofCh: %d, ch: %c, col: %d, lenLine: %d, lineno: %d\n", (ch == eofCh), ch, col, lenLine, lineno);
+	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
+	puts("hi!");
+	printf("col + 1 : %d", (col + 1)); // seg fault: 11 here.
+	if (++col >= lenLine) {
+		if (fgets(currentLine, bufsize, infh) == NULL) {
+			input = currentLine;
+			snprintf(nextStr, bufsize, "%s%s", input, eofTok.toString());
+			input = nextStr;
+		} else {
+			lineno++;
+			input += '\n';
+			snprintf(currentLine, bufsize, "%s", input);
+		}
+		col = 0;
+	}
+	printf("currentLine[col] = %c", currentLine[col]);
+	return currentLine[col];
+
+}
 */
