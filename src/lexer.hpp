@@ -106,7 +106,10 @@ char Lexer::nextChar() {
 
 Token Lexer::next() {
 
+	int i = 0;
+
 	do {
+		printf("\n%d (1) - c = %c\n", i, ch);
 puts("lexer const 1");
 		if (isLetter(ch)) {
 puts("lexer const 2");
@@ -221,6 +224,7 @@ puts("lexer constructer 1");
 				error((char *) errStr);
 
 		} // switch
+		printf("\n%d (2) - c = %c\n", i, ch);
 
 	} while (1);
 
