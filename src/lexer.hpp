@@ -20,7 +20,7 @@ struct Lexer {
 	Lexer(char * filename);
 	private:
 		FILE * infh;
-		int col;
+		int collumn;
 		int lenLine;
 		char nextChar();
 		int isLetter(char);
@@ -50,6 +50,7 @@ char * input;
 char currentLine[bufsize];
 char nextStr[bufsize];
 char * concatStr;
+int collumn;
 
 // ---- def'ns
 
@@ -72,7 +73,7 @@ Lexer::Lexer(char * filename) {
 		puts("lexer constructer 4");
 		lineno = 0;
 		isEof = 0;
-		col = 1;
+		collumn = 1;
 	}
 
 } // Lexer
@@ -86,13 +87,13 @@ void Lexer::error(char * msg) {
 
 char Lexer::nextChar() {
 
-	printf("1addr of col: %p", &col);
-	printf("nextChar, ch == eofCh: %d, ch: %c, col: %d, lenLine: %d, lineno: %d\n", (ch == eofCh), ch, col++, lenLine, lineno);
-	printf("addr of col: %p", &col);
+	printf("1addr of collumn: %p", &collumn);
+	printf("nextChar, ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", (ch == eofCh), ch, collumn++, lenLine, lineno);
+	printf("addr of collumn: %p", &collumn);
 	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
 	puts("hi!");
-	printf("addr of col: %p", &col); // seg fault 11
-	if (col >= lenLine) {
+	printf("addr of collumn: %p", &collumn); // seg fault 11
+	if (collumn >= lenLine) {
 		if (fgets(currentLine, bufsize, infh) == NULL) {
 			input = currentLine;
 			snprintf(nextStr, bufsize, "%s%s", input, eofTok.toString());
@@ -102,10 +103,10 @@ char Lexer::nextChar() {
 			input += '\n';
 			snprintf(currentLine, bufsize, "%s", input);
 		}
-		col = 0;
+		collumn = 0;
 	}
-	printf("currentLine[col] = %c", currentLine[col]);
-	return currentLine[col];
+	printf("currentLine[collumn] = %c", currentLine[collumn]);
+	return currentLine[collumn];
 
 }
 
@@ -314,7 +315,7 @@ public class Lexer {
     private BufferedReader input;
     private String line = "";
     private int lineno = 0;
-    private int col = 1;
+    private int collumn = 1;
     private final String letters = "abcdefghijklmnopqrstuvwxyz"
         + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private final String digits = "0123456789";
@@ -335,8 +336,8 @@ public class Lexer {
     private char nextChar() { // Return next char
         if (ch == eofCh)
             error("Attempt to read past end of file");
-        col++;
-        if (col >= line.length()) {
+        collumn++;
+        if (collumn >= line.length()) {
             try {
                 line = input.readLine( );
             } catch (IOException e) {
@@ -350,9 +351,9 @@ public class Lexer {
                 lineno++;
                 line += eolnCh;
             } // if line
-            col = 0;
-        } // if col
-        return line.charAt(col);
+            collumn = 0;
+        } // if collumn
+        return line.charAt(collumn);
     }
             
 
@@ -406,7 +407,7 @@ public class Lexer {
 	    case '}': ch = nextChar();
 		 return Token.rightBraceTok;
 	    case ';': ch = nextChar();
-		return Token.semicolonTok;
+		return Token.semicollumnonTok;
 	    case ',': ch = nextChar();
 		return Token.commaTok;
 	    case '[': ch = nextChar();
@@ -474,7 +475,7 @@ public class Lexer {
 
     public void error (String msg) {
         System.err.print(line);
-        System.err.println("Error: column " + col + " " + msg);
+        System.err.println("Error: collumnumn " + collumn + " " + msg);
         System.exit(1);
     }
 
@@ -498,11 +499,11 @@ public class Lexer {
 // below -- doesn't work
 char Lexer::nextChar() {
 
-	printf("nextChar, ch == eofCh: %d, ch: %c, col: %d, lenLine: %d, lineno: %d\n", (ch == eofCh), ch, col, lenLine, lineno);
+	printf("nextChar, ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", (ch == eofCh), ch, collumn, lenLine, lineno);
 	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
 	puts("hi!");
-	printf("col + 1 : %d", (col + 1)); // seg fault: 11 here.
-	if (++col >= lenLine) {
+	printf("collumn + 1 : %d", (collumn + 1)); // seg fault: 11 here.
+	if (++collumn >= lenLine) {
 		if (fgets(currentLine, bufsize, infh) == NULL) {
 			input = currentLine;
 			snprintf(nextStr, bufsize, "%s%s", input, eofTok.toString());
@@ -512,10 +513,10 @@ char Lexer::nextChar() {
 			input += '\n';
 			snprintf(currentLine, bufsize, "%s", input);
 		}
-		col = 0;
+		collumn = 0;
 	}
-	printf("currentLine[col] = %c", currentLine[col]);
-	return currentLine[col];
+	printf("currentLine[collumn] = %c", currentLine[collumn]);
+	return currentLine[collumn];
 
 }
 */
