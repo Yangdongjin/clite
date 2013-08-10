@@ -118,25 +118,24 @@ Token Lexer::next() {
 
 	do {
 		printf("\n%d (1) - c = %c\n", i, ch);
-puts("lexer const 1");
+		puts("lexer const 1");
 		if (isLetter(ch)) {
-puts("lexer const 2");
+			puts("lexer const 2");
 			snprintf(nextStr, bufsize, "%s%s", letters, digits);
 			concatStr = nextStr;
-puts("lexer const 6");
+			puts("lexer const 6");
 			char * spelling = concat(concatStr);
-	puts("lexer const 3");
+			puts("lexer const 3");
 			return keyword(spelling);
 		} else if (isDigit(ch)) {
-puts("lexer const 8");
+			puts("lexer const 8");
 			char * number = concat((char *) digits);
 			puts("lexer const 5");
 			snprintf(nextStr, bufsize, "%s", number);
-		puts("lexer const 6");
+			puts("lexer const 6");
 			if (ch != '.') return mkIntLiteral(number);
 			snprintf(nextStr, bufsize, "%s%s", number, digits);
 			return mkFloatLiteral(nextStr);
-puts("lexer const 7");
 		} else switch (ch) {
 
 			case ' ': case '\t': case '\r': case eolnCh:
@@ -206,11 +205,12 @@ puts("lexer const 7");
 			case ']':
 				ch = nextChar();
 				return rightBracketTok;
-
-                // - * ( ) { } ; ,  student exercise
                 
-            case '&': check('&'); return andTok;
-            case '|': check('|'); return orTok;
+            case '&': check('&');
+        		return andTok;
+
+            case '|': check('|');
+            	return orTok;
 
             case '=':
                 return chkOpt('=', assignTok,
