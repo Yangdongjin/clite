@@ -44,7 +44,7 @@ Token mkCharLiteral(char *);
 
 // ---- constants
 
-const int KEYWORDS = Eof;
+const int KEYWORDS = Eof; // number of keywords in the language
 
 // ---- variables
 
@@ -101,8 +101,6 @@ Token::Token(TokenType t, const char * val) {
 	value = (char *) val;
 
 }
-
-Token::Token() {}
 
 TokenType Token::getType() { return type; }
 
