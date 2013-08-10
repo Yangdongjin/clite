@@ -91,7 +91,8 @@ char Lexer::nextChar() {
 	printf("nextChar, ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", (ch == eofCh), ch, collumn++, lenLine, lineno);
 	printf("1addr of collumn: %p", &collumn);
 	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
-	puts("hi!");
+	puts("hi!1");
+	puts("hi!2");
 	printf("2addr of collumn: %p", &collumn); // seg fault 11
 	if (collumn >= lenLine) {
 		if (fgets(currentLine, bufsize, infh) == NULL) {

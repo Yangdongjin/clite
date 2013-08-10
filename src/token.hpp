@@ -102,6 +102,13 @@ Token::Token(TokenType t, const char * val) {
 
 }
 
+Token::Token() {
+
+	type = Eof;
+	value = (char *) "<<EOF>>";
+
+}
+
 TokenType Token::getType() { return type; }
 
 char* Token::getValue() { return value; }
