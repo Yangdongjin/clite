@@ -67,7 +67,8 @@ Lexer::Lexer(char * filename) {
 		exit(1);
 	} else {
 		puts("lexer constructer 2");
-		lenLine = snprintf(currentLine, bufsize, "%s", input);
+		input = (char *) &currentLine[0];
+		printf("\ninput: %s, currentLine: %s\n",((char *) input), ((char *) &currentLine));
 		puts("lexer constructer 3");
 		ch = currentLine[0];
 		puts("lexer constructer 4");
@@ -88,7 +89,7 @@ void Lexer::error(char * msg) {
 char Lexer::nextChar() {
 
 	printf("1addr of collumn: %p", &collumn);
-	printf("nextChar, ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", (ch == eofCh), ch, collumn++, lenLine, lineno);
+	printf("nextChar: input: %s, currentLine: %s ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", ((char *) input), ((char *) &currentLine), (ch == eofCh), ch, collumn++, lenLine, lineno);
 	printf("1addr of collumn: %p", &collumn);
 	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
 	puts("hi!1");
@@ -101,8 +102,13 @@ char Lexer::nextChar() {
 			input = nextStr;
 		} else {
 			lineno++;
-			input += '\n';
+			//input += '\n';
+			snprintf(nextStr, bufsize, "%s", input);
+			snprintf(input, bufsize, "%s\n", nextStr);
+			printf("1addr of currentLine: %p, currentLine: %s", &currentLine, currentLine);
+			printf("\n1addr of input: %p, input: %s\n\n", input, input);
 			snprintf(currentLine, bufsize, "%s", input); // gdb said segfault occurs here
+			printf("2addr of currentLine: %p, currentLine: %s", &currentLine, currentLine);
 		}
 		collumn = 0;
 	}
@@ -115,6 +121,7 @@ char Lexer::nextChar() {
 Token Lexer::next() {
 
 	int i = 0;
+	//input = &currentLine = ;
 
 	do {
 		printf("\n%d (1) - c = %c\n", i, ch);
@@ -234,9 +241,10 @@ Token Lexer::next() {
 
 		} // switch
 		puts("lexer const 10");
-		printf("\n%d (2) - c = %c\n", i, ch);
+		printf("\n%d (2) - c = %c\n", i++, ch);
+		printf("(i < 10) : %d", (i < 10));
 
-	} while (1);
+	} while (i < 10);
 
 } // next
 
