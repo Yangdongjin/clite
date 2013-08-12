@@ -167,6 +167,7 @@ Token Lexer::next() {
 				return mkCharLiteral(&ch1);
 
 			case eofCh:
+				isEof = 1;
 				return eofTok;
 
 			case '+':
@@ -244,7 +245,7 @@ Token Lexer::next() {
 		printf("\n%d (2) - c = %c\n", i++, ch);
 		printf("(i < 10) : %d", (i < 10));
 
-	} while (i < 10);
+	} while (1);
 
 } // next
 
