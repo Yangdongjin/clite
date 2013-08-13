@@ -4,8 +4,9 @@
 
 #ifndef LEXER_H_
 #define LEXER_H_
+
 #include <stdio.h>
-#include <cstdlib>
+//#include <cstdlib>
 #include <cstring>
 #include <cerrno>
 #include "token.hpp"
@@ -56,22 +57,22 @@ int collumn;
 
 Lexer::Lexer(char * filename) {
 
-	puts("lexer constructer 1");
+	//puts("lexer constructer 1");
 	if ((infh = fopen(filename, "r")) == NULL) {
 		printf("LEXERR: %s: %s\n", strerror(errno), filename);
 		exit(1);
 	} else if (fgets(currentLine, bufsize, infh) == NULL) {
 		input = currentLine;
 		printf("LEXERR: %s: %s\n", strerror(errno), filename);
-		puts("lexer constructer 2");
+		//puts("lexer constructer 2");
 		exit(1);
 	} else {
-		puts("lexer constructer 2");
+		//puts("lexer constructer 2");
 		input = (char *) &currentLine[0];
 		printf("\ninput: %s, currentLine: %s\n",((char *) input), ((char *) &currentLine));
-		puts("lexer constructer 3");
+		//puts("lexer constructer 3");
 		ch = currentLine[0];
-		puts("lexer constructer 4");
+		//puts("lexer constructer 4");
 		lineno = 0;
 		isEof = 0;
 		collumn = 1;
@@ -88,13 +89,13 @@ void Lexer::error(char * msg) {
 
 char Lexer::nextChar() {
 
-	printf("1addr of collumn: %p", &collumn);
-	printf("nextChar: input: %s, currentLine: %s ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", ((char *) input), ((char *) &currentLine), (ch == eofCh), ch, collumn++, lenLine, lineno);
-	printf("1addr of collumn: %p", &collumn);
+	//printf("1addr of collumn: %p", &collumn);
+	printf("\n1nextChar: input: %s, currentLine: %s ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", ((char *) input), ((char *) &currentLine), (ch == eofCh), ch, collumn++, lenLine, lineno);
+	//printf("1addr of collumn: %p", &collumn);
 	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
-	puts("hi!1");
-	puts("hi!2");
-	printf("2addr of collumn: %p", &collumn); // seg fault 11
+	//puts("hi!1");
+	//puts("hi!2");
+	//printf("2addr of collumn: %p", &collumn); // seg fault 11
 	if (collumn >= lenLine) {
 		if (fgets(currentLine, bufsize, infh) == NULL) {
 			input = currentLine;
@@ -105,14 +106,15 @@ char Lexer::nextChar() {
 			//input += '\n';
 			snprintf(nextStr, bufsize, "%s", input);
 			snprintf(input, bufsize, "%s\n", nextStr);
-			printf("1addr of currentLine: %p, currentLine: %s", &currentLine, currentLine);
-			printf("\n1addr of input: %p, input: %s\n\n", input, input);
+	//		printf("1addr of currentLine: %p, currentLine: %s", &currentLine, currentLine);
+		//	printf("\n1addr of input: %p, input: %s\n\n", input, input);
 			snprintf(currentLine, bufsize, "%s", input); // gdb said segfault occurs here
-			printf("2addr of currentLine: %p, currentLine: %s", &currentLine, currentLine);
+			//printf("2addr of currentLine: %p, currentLine: %s", &currentLine, currentLine);
 		}
 		collumn = 0;
 	}
-	printf("3addr of collumn: %p", &collumn);
+	printf("\n2nextChar: input: %s, currentLine: %s ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", ((char *) input), ((char *) &currentLine), (ch == eofCh), ch, collumn++, lenLine, lineno);
+	//printf("3addr of collumn: %p", &collumn);
 	printf("currentLine[collumn] = %c", currentLine[collumn]);
 	return currentLine[collumn];
 
@@ -124,22 +126,22 @@ Token Lexer::next() {
 	//input = &currentLine = ;
 
 	do {
-		printf("\n%d (1) - c = %c\n", i, ch);
-		puts("lexer const 1");
+//		printf("\n%d (1) - c = %c\n", i, ch);
+//		puts("lexer const 1");
 		if (isLetter(ch)) {
-			puts("lexer const 2");
+//			puts("lexer const 2");
 			snprintf(nextStr, bufsize, "%s%s", letters, digits);
 			concatStr = nextStr;
-			puts("lexer const 6");
+//			puts("lexer const 6");
 			char * spelling = concat(concatStr);
-			puts("lexer const 3");
+//			puts("lexer const 3");
 			return keyword(spelling);
 		} else if (isDigit(ch)) {
-			puts("lexer const 8");
+//			puts("lexer const 8");
 			char * number = concat((char *) digits);
-			puts("lexer const 5");
+//			puts("lexer const 5");
 			snprintf(nextStr, bufsize, "%s", number);
-			puts("lexer const 6");
+//			puts("lexer const 6");
 			if (ch != '.') return mkIntLiteral(number);
 			snprintf(nextStr, bufsize, "%s%s", number, digits);
 			return mkFloatLiteral(nextStr);
@@ -241,9 +243,9 @@ Token Lexer::next() {
 				error((char *) errStr);
 
 		} // switch
-		puts("lexer const 10");
-		printf("\n%d (2) - c = %c\n", i++, ch);
-		printf("(i < 10) : %d", (i < 10));
+		//puts("lexer const 10");
+		//printf("\n%d (2) - c = %c\n", i++, ch);
+		//printf("(i < 10) : %d", (i < 10));
 
 	} while (1);
 
@@ -251,7 +253,7 @@ Token Lexer::next() {
 
 int Lexer::isLetter(char c) {
 
-	puts("lexer isLetter1");
+	//puts("lexer isLetter1");
 
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 
@@ -259,7 +261,7 @@ int Lexer::isLetter(char c) {
 
 int Lexer::isDigit(char c) {
 
-	puts("lexer isDigit1");
+	//puts("lexer isDigit1");
 
 	return (c >= '0' && c <= '9');
 
