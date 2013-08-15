@@ -29,40 +29,13 @@ int main(int argc, char ** argv) {
 
 }
 
+/* OUT
 
-/* *** lexer.hpp ***
-
-#include "token.hpp"
-
-struct Lexer {
-
-	int isEof = 0;
-	char ch = ' ';
-	int lineno = 0;
-	Token next();
-	void error(char*);
-	private:
-		int col = 1;
-		char nextChar();
-		int isLetter(char);
-		int isDigit(char);
-		void check(char);
-		Token chkOpt(char, Token, Token);
-		char* concat(char*);
-
-};
-
-const char * letters = "abcdefghijklmnopqrstuvwxyz\
-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const char * digits = "0123456789";
-const char eolnCh = '\n';
-const char eofCh = '\004';
-
-
-*/
-
-/* PSEUDO
-
+2nextChar: input: int main() {
+, currentLine: int main() {
+ ch == eofCh: 0, ch: {, collumn: 12, lenLine: 32767, lineno: 0
+currentLine[collumn] = current token:
+LEXERR(0): Illegal character
 
 */
 

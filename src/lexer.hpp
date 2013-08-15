@@ -6,7 +6,7 @@
 #define LEXER_H_
 
 #include <stdio.h>
-//#include <cstdlib>
+#include <cstdlib>
 #include <cstring>
 #include <cerrno>
 #include "token.hpp"
