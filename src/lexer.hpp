@@ -59,17 +59,17 @@ Lexer::Lexer(char * filename) {
 
 	//puts("lexer constructer 1");
 	if ((infh = fopen(filename, "r")) == NULL) {
-		printf("LEXERR: %s: %s\n", strerror(errno), filename);
+		printf("l#62: LEXERR: %s: %s\n", strerror(errno), filename);
 		exit(1);
 	} else if (fgets(currentLine, bufsize, infh) == NULL) {
 		input = currentLine;
-		printf("LEXERR: %s: %s\n", strerror(errno), filename);
+		printf("l#66: LEXERR: %s: %s\n", strerror(errno), filename);
 		//puts("lexer constructer 2");
 		exit(1);
 	} else {
 		//puts("lexer constructer 2");
 		input = (char *) &currentLine[0];
-		printf("\ninput: %s, currentLine: %s\n",((char *) input), ((char *) &currentLine));
+		printf("\nl#72: input: %s, currentLine: %s\n",((char *) input), ((char *) &currentLine));
 		//puts("lexer constructer 3");
 		ch = currentLine[0];
 		//puts("lexer constructer 4");
@@ -90,7 +90,7 @@ void Lexer::error(char * msg) {
 char Lexer::nextChar() {
 
 	//printf("1addr of collumn: %p", &collumn);
-	printf("\n1nextChar: input: %s, currentLine: %s ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", ((char *) input), ((char *) &currentLine), (ch == eofCh), ch, collumn++, lenLine, lineno);
+	printf("\nl#93: 1nextChar(): input: %s, currentLine: %s ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", ((char *) input), ((char *) &currentLine), (ch == eofCh), ch, collumn++, lenLine, lineno);
 	//printf("1addr of collumn: %p", &collumn);
 	if (ch == eofCh) error((char *) "Attempt to read past end of file.");
 	//puts("hi!1");
@@ -113,9 +113,9 @@ char Lexer::nextChar() {
 		}
 		collumn = 0;
 	}
-	printf("\n2nextChar: input: %s, currentLine: %s ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", ((char *) input), ((char *) &currentLine), (ch == eofCh), ch, collumn++, lenLine, lineno);
+	printf("\nl#116: 2nextChar(): input: %s, currentLine: %s ch == eofCh: %d, ch: %c, collumn: %d, lenLine: %d, lineno: %d\n", ((char *) input), ((char *) &currentLine), (ch == eofCh), ch, collumn++, lenLine, lineno);
 	//printf("3addr of collumn: %p", &collumn);
-	printf("currentLine[collumn] = %c", currentLine[collumn]);
+	printf("l#118: currentLine[collumn] = %c", currentLine[collumn]);
 	return currentLine[collumn];
 
 }
@@ -189,7 +189,7 @@ Token Lexer::next() {
 				return leftParenTok;
 
 			case ')':
-				puts("lexer const 9");
+				puts("lexer next() [192]: case ch == ')' in switch");
 				ch = nextChar();
 				return rightParenTok;
 
@@ -239,7 +239,7 @@ Token Lexer::next() {
 
 			default:
 				char errStr[bufsize];
-				snprintf(errStr, bufsize, "Illegal character %c", ch);
+				snprintf(errStr, bufsize, "l#242: Illegal character %c", ch);
 				error((char *) errStr);
 
 		} // switch
@@ -272,7 +272,7 @@ void Lexer::check(char c) {
 	char errMsg[bufsize];
 	ch = nextChar();
 	if (ch != c) {
-		snprintf(errMsg, bufsize, "Illegal character, expecting: %c", c);
+		snprintf(errMsg, bufsize, "l#275:Illegal character, expecting: %c", c);
 		error((char *) errMsg);
 	}
 	ch = nextChar();
