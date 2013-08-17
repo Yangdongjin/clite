@@ -20,7 +20,7 @@ int main(int argc, char ** argv) {
 	lexer.next();
 	while (!lexer.isEof || i++ >= 30) {
 
-		printf("current token: %c\n", lexer.ch);
+		printf("\nlexer.cpp #23 current token: %c, current token in int: %d, eolnCh: %d\n", lexer.ch, lexer.ch, '\n');
 		lexer.next();
 	
 	}

@@ -97,7 +97,7 @@ char Lexer::nextChar() {
 	//puts("hi!2");
 	//printf("2addr of collumn: %p", &collumn); // seg fault 11
 	if (collumn >= lenLine) {
-		if (fgets(currentLine, bufsize, infh) == NULL) {
+		if (fgets(currentLine, bufsize, infh) != NULL) {
 			input = currentLine;
 			snprintf(nextStr, bufsize, "%s%s", input, eofTok.toString());
 			input = nextStr;
@@ -147,7 +147,7 @@ Token Lexer::next() {
 			return mkFloatLiteral(nextStr);
 		} else switch (ch) {
 
-			case ' ': case '\t': case '\r': case eolnCh:
+			case ' ': case '\t': case '\r': case 0:
 				ch = nextChar();
 				break;
 
