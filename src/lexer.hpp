@@ -42,8 +42,11 @@ const int bufsize = 1024;
 const char * letters = "abcdefghijklmnopqrstuvwxyz\
 ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const char * digits = "0123456789";
-const char eolnCh = '\n';
-const char eofCh = '\004';
+
+// THE BELOW NEED TO BE THE CORRECT CONSTANTS.. ascii?
+
+//const char eolnCh = '\n';
+//const char eofCh = '\004';
 
 // ---- variables
 
