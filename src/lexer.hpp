@@ -42,8 +42,16 @@ const int bufsize = 1024;
 const char * letters = "abcdefghijklmnopqrstuvwxyz\
 ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const char * digits = "0123456789";
-const char eolnCh = '\n';
-const char eofCh = '\004';
+<<<<<<< HEAD
+const char eolnCh = 10;
+const char eofCh = 0;
+=======
+
+// THE BELOW NEED TO BE THE CORRECT CONSTANTS.. ascii?
+
+//const char eolnCh = '\n';
+//const char eofCh = '\004';
+>>>>>>> df9caeb39c19cbd33fb9d1bdb618c57aa4652518
 
 // ---- variables
 
@@ -97,7 +105,7 @@ char Lexer::nextChar() {
 	//puts("hi!2");
 	//printf("2addr of collumn: %p", &collumn); // seg fault 11
 	if (collumn >= lenLine) {
-		if (fgets(currentLine, bufsize, infh) != NULL) {
+		if (fgets(currentLine, bufsize, infh) == NULL) {
 			input = currentLine;
 			snprintf(nextStr, bufsize, "%s%s", input, eofTok.toString());
 			input = nextStr;
@@ -147,7 +155,7 @@ Token Lexer::next() {
 			return mkFloatLiteral(nextStr);
 		} else switch (ch) {
 
-			case ' ': case '\t': case '\r': case 0:
+			case ' ': case '\t': case '\r': case eolnCh:
 				ch = nextChar();
 				break;
 
