@@ -43,14 +43,20 @@ const char * letters = "abcdefghijklmnopqrstuvwxyz\
 ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const char * digits = "0123456789";
 <<<<<<< HEAD
+<<<<<<< HEAD
 const char eolnCh = 10;
 const char eofCh = 0;
 =======
+=======
+>>>>>>> df9caeb39c19cbd33fb9d1bdb618c57aa4652518
 
 // THE BELOW NEED TO BE THE CORRECT CONSTANTS.. ascii?
 
 //const char eolnCh = '\n';
 //const char eofCh = '\004';
+<<<<<<< HEAD
+>>>>>>> df9caeb39c19cbd33fb9d1bdb618c57aa4652518
+=======
 >>>>>>> df9caeb39c19cbd33fb9d1bdb618c57aa4652518
 
 // ---- variables
